@@ -18,6 +18,7 @@ tags:
 - Lodash functions are unnecessary. Use built-in functions.
 - Lodash served a solid purpose before native replacements.
 - Dependencies carry risk and maintenance overhead. Avoid them.
+- Influential libraries influence your thinking, learn the language.
 
 #### Dependencies generate work
 
@@ -110,7 +111,8 @@ function isArray(obj) {
 	}
 
 	// This catches string, number, true
-	if (typeof obj !== 'object') {
+    // (Strict equality wasn't widely available until mid-2015)
+	if (typeof obj != 'object') {
 		return false;
 	}
 
@@ -124,14 +126,14 @@ There are other ways of doing this, none of them good:
 ```javascript
 function isArray(obj) {
 	// You need a JavaScript degree to tell me what this means.
-	return Object.prototype.toString.call(obj) === '[object Array]';
+	return Object.prototype.toString.call(obj) == '[object Array]';
 }
 ```
 
 In Lodash:
 ```javascript
 // Is it an array?
-_.isArray(arr)) {
+_.isArray(arr)
 
 // Is the array empty?
 _.isEmpty(arr)
@@ -186,9 +188,10 @@ const something = {
 const shallow = { ...something };
 ```
 
-the spread operator `...` assigns the keys of `shallow` to `something`.
+The spread operator `...` effectively iterates over the keys of `something` and
+sets `shallow[key] = something[key]`.
 
-The objects that you copy using this method are the same references as before:
+The properties spread operator'd into `shallow` are the same references as before:
 ```javascript
 const shallow = { ...something };
 
@@ -223,9 +226,7 @@ clone['d'] === something['d']
 clone['c'] === something['c']
 ```
 
-It's a niche use case but it works - install the standalone package
-
-## Speak the same language
+It's a niche use case but it works - install the standalone package!
 
 Lodash has other functions for manipulating data which can be useful like `sortBy()` and `uniqBy()`.
 
@@ -244,7 +245,23 @@ const actuallySorted = _.sortBy(unsorted);
 ```
 
 It can be useful for complicated mutations, but you shouldn't need them if you
-have a sensible data structure.
+have a sensible data structure to begin with.
+
+## Speak the same language
+
+There are many other influential JS libraries, all of which require a level of
+buy-in to their particular way of thinking.
+
+React, Tailwind, NextJS, shadcn and the ilk are the current frontrunners as
+of writing this, and so my thoughts around web technology are warped to their
+pull. Hybrid rendering techniques, and utility classes.
+
+Prior to these, my thoughts were concerned with CSS-in-JS, and state management
+libraries like Redux, MobX or Cerebral.
+
+Instead of learning to apply the latest influential library, I recommend web
+developers and technologists to hone their understanding of software
+fundamentals and native language features.
 
 As much as possible, try to speak JavaScript instead of Lodash, it works
 everywhere.
