@@ -1,9 +1,6 @@
 ---
 id: Don't Use Lodash
-aliases: []
-tags:
-  - javascript
-  - opinion
+title: Don't Use Lodash (anymore)
 ---
 
 [home](../../)
@@ -44,7 +41,11 @@ risk falling out of compatibility with everything else.
 
 There are also security risks for any dependency, installing the next *[leftpad incident](https://qz.com/646467/how-one-programmer-broke-the-internet-by-deleting-a-tiny-piece-of-code)* or *[node-ipc incident](https://www.lunasec.io/docs/blog/node-ipc-protestware/)*.
 
-Malicious npm packages are [not even considered uncommon](https://thehackernews.com/2023/08/malicious-npm-packages-found.html). **Edit:** [Happened again](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem).
+Malicious npm packages are [not even considered uncommon](https://thehackernews.com/2023/08/malicious-npm-packages-found.html).
+
+**Edit:** [Happened again](https://www.cisa.gov/news-events/alerts/2025/09/23/widespread-supply-chain-compromise-impacting-npm-ecosystem).
+
+**Another edit:** [And again.](https://unit42.paloaltonetworks.com/axios-supply-chain-attack/)
 
 ## The point of Lodash
 
@@ -85,7 +86,7 @@ var expensiveFruit = _.filter(fruits, function(f) {
 	return f['price'] > 2;
 });
 ```
-This is declarative rather than imperative and, is personally more readable.
+This is declarative rather than imperative and is personally more readable.
 
 Or when iterating:
 ```javascript
