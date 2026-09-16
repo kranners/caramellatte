@@ -1,0 +1,175 @@
+@import "./tokens.css";
+
+/*
+ * Editorial — element styles for a long-form blog.
+ * Reads tokens from tokens.css; change the palette there, not here.
+ */
+
+/* Border-box keeps the code-block bleed symmetric: padding is inside width. */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 4rem 1.25rem 6rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: var(--size-body)/var(--leading) var(--font-body);
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * One centred column. The wrapper carries the measure, not the individual
+ * elements -- element margin shorthands (h1, p, ul) would otherwise reset the
+ * `margin-inline: auto` that centres them.
+ */
+body > * { max-width: var(--measure); margin-inline: auto; }
+
+/* ---- Masthead ------------------------------------------------------- */
+
+.masthead {
+  margin-bottom: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.masthead a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  font: 500 .8125rem/1 var(--font-ui);
+}
+.masthead a:hover { color: var(--accent); }
+
+/*
+ * Theme toggle. Hidden until the inline script in Base.astro sets data-theme,
+ * because without JavaScript the button has nothing to toggle.
+ */
+.theme-toggle { display: none; }
+:root[data-theme] .theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: -0.5rem -0.5rem -0.5rem 0;  /* optical: keep the glyph flush right */
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.theme-toggle:hover { color: var(--accent); }
+.theme-toggle svg { width: 1.0625rem; height: 1.0625rem; display: block; }
+
+/* Show the icon for the theme you would switch *to*. */
+.theme-toggle .sun,
+:root[data-theme="dark"] .theme-toggle .moon { display: none; }
+:root[data-theme="dark"] .theme-toggle .sun { display: block; }
+
+/* ---- Headings ------------------------------------------------------- */
+
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1.2;
+  font-weight: 600;
+  margin: 2.75rem 0 .75rem;
+  text-wrap: balance;
+}
+h1 { font-size: 2.125rem; margin-top: 0; letter-spacing: -.015em; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.25rem; }
+h4, h5, h6 { font-size: 1.0625rem; }
+h1 + * { margin-top: 1.5rem; }
+
+/* ---- Body ----------------------------------------------------------- */
+
+p, ul, ol { margin: 0 0 1.35rem; }
+p { text-align: justify; hyphens: auto; text-wrap: pretty; }
+ul, ol { padding-left: 1.25rem; }
+li { margin-bottom: .35rem; }
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: .18em;
+}
+
+blockquote {
+  margin: 2rem 0;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--rule);
+  color: var(--ink-soft);
+  font-style: italic;
+}
+/* Justification needs room; a quote rarely has it. */
+blockquote p { text-align: left; hyphens: manual; }
+
+hr { border: 0; border-top: 1px solid var(--rule); margin: 3rem 0; }
+
+img, video, svg { max-width: 100%; height: auto; }
+
+/* ---- Code ----------------------------------------------------------- */
+
+code, kbd, samp { font-family: var(--font-mono); }
+
+:not(pre) > code {
+  font-size: .875em;
+  background: var(--code-bg);
+  color: var(--ink);
+  padding: .1em .35em;
+  border-radius: 3px;
+}
+
+/* Code gets --bleed more room than prose, spilling evenly out of the column. */
+pre {
+  width: calc(100% + var(--bleed));
+  margin: 1.75rem calc(var(--bleed) / -2) 2rem;
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: var(--code-bg);
+  font-size: .8125rem;
+  line-height: 1.6;
+  overflow-x: auto;
+  tab-size: 2;
+}
+/* fit-content + min-width keeps the right padding when a long line scrolls. */
+pre code {
+  font-size: inherit;
+  display: block;
+  width: fit-content;
+  min-width: 100%;
+}
+
+/*
+ * Astro renders Shiki with `defaultColor: false` (see astro.config.mjs), so
+ * tokens carry --shiki-light / --shiki-dark instead of a baked-in colour.
+ * That leaves the background above under our control in both schemes.
+ */
+.astro-code, .astro-code span { color: var(--shiki-light); }
+@media (prefers-color-scheme: dark) {
+  .astro-code, .astro-code span { color: var(--shiki-dark); }
+}
+
+/* ---- Post index ----------------------------------------------------- */
+
+.posts { list-style: none; padding: 0; margin: 0; }
+.posts li { margin-bottom: 1rem; }
+.posts a { color: var(--ink); text-decoration-color: var(--rule); }
+.posts a:hover { color: var(--accent); text-decoration-color: currentColor; }
+
+/* ---- Small screens --------------------------------------------------- */
+
+@media (max-width: 40rem) {
+  body { padding-top: 2.5rem; font-size: 1.0625rem; }
+  h1 { font-size: 1.75rem; }
+  /* Too narrow to justify without ugly gaps, even with hyphens. */
+  p { text-align: left; hyphens: manual; }
+  /* Let code blocks run to the screen edge rather than squeeze. */
+  pre { width: auto; margin-inline: -1.25rem; border-inline: 0; border-radius: 0; }
+}

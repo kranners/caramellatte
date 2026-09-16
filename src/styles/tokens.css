@@ -1,0 +1,53 @@
+/*
+ * Design tokens — the only file you need to touch to restyle the site.
+ *
+ * Every colour below is a light/dark pair. Which half applies is decided by
+ * `color-scheme`: it follows the operating system until the masthead toggle
+ * pins it, which it does by setting data-theme on <html>.
+ */
+
+:root {
+  /* ---- Palette: light/dark ------------------------------------------- */
+  --bg:        light-dark(#fdfcf9, #16161a);  /* page background */
+  --ink:       light-dark(#1f1d1a, #e6e2da);  /* body text */
+  --ink-soft:  light-dark(#5f5a52, #9a938a);  /* nav, footer, captions */
+  --rule:      light-dark(#e4ded2, #2e2d33);  /* hairlines and borders */
+  --accent:    light-dark(#8a4b2a, #d79a6d);  /* links, hover states */
+  --code-bg:   light-dark(#f6f3ec, #1e1e24);  /* code backgrounds */
+
+  /* ---- Measure & rhythm ---------------------------------------------- */
+  --measure:   34rem;    /* body column, ~62 characters at 1.125rem */
+  --bleed:     5rem;     /* extra width code blocks get over --measure */
+  --leading:   1.7;      /* body line-height */
+
+  /* ---- Type ----------------------------------------------------------- */
+  --font-body: "Iowan Old Style", "Palatino Linotype", Palatino,
+               "Book Antiqua", Georgia, serif;
+  --font-ui:   ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+               sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+               monospace;
+  --size-body: 1.125rem;
+
+  color-scheme: light dark;
+}
+
+/* The toggle pins one half of every pair. */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dark"]  { color-scheme: dark; }
+
+/*
+ * Alternate palettes — paste over the six colours above to swap the mood.
+ * Measure, type and rhythm are unaffected.
+ *
+ *   Cool grey        light: #fcfcfd #1a1b1e #6b7280 #e5e7eb #3b5bdb #f4f5f7
+ *                    dark:  #121316 #e7e9ec #9096a0 #2a2c33 #91a7ff #1b1d22
+ *
+ *   Ink on paper     light: #fffef8 #16150f #5c5849 #e8e3d2 #1f4d3f #f4f1e4
+ *                    dark:  #14150f #e8e5d8 #97928a #2c2c25 #7fb79c #1d1e17
+ *
+ *   Plum             light: #fdfbfd #1d1a1f #665f6b #e8e0ea #7a3b86 #f5f0f7
+ *                    dark:  #17151a #e7e2ea #968ea0 #302b35 #c99ad4 #201d25
+ *
+ * Order is: --bg --ink --ink-soft --rule --accent --code-bg
+ */

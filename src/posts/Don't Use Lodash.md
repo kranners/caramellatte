@@ -3,8 +3,6 @@ id: Don't Use Lodash
 title: Don't Use Lodash (anymore)
 ---
 
-[home](../../)
-
 # Don't Use [Lodash](https://lodash.com/) (anymore)
 
 > **"Why should I write a function if there's just a library for it?"**

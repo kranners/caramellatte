@@ -1,0 +1,64 @@
+---
+import "../styles/editorial.css";
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {/* Runs before first paint so the page never flashes the wrong theme. */}
+    <script is:inline>
+      (() => {
+        const media = matchMedia("(prefers-color-scheme: dark)");
+        const stored = localStorage.getItem("theme");
+        const apply = (theme) =>
+          document.documentElement.dataset.theme = theme;
+
+        apply(stored ?? (media.matches ? "dark" : "light"));
+
+        // Keep following the OS until the reader picks a side.
+        media.addEventListener("change", (e) => {
+          if (!localStorage.getItem("theme")) apply(e.matches ? "dark" : "light");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!e.target.closest(".theme-toggle")) return;
+          const next =
+            document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+          localStorage.setItem("theme", next);
+          apply(next);
+        });
+      })();
+    </script>
+  </head>
+  <body>
+    <header class="masthead">
+      <a href="/">caramellatte</a>
+      <button class="theme-toggle" type="button" title="Switch theme" aria-label="Switch theme">
+        <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+        </svg>
+        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+             aria-hidden="true">
+          <circle cx="12" cy="12" r="4.25" />
+          <path d="M12 1.5v2.5M12 20v2.5M4.22 4.22l1.77 1.77M18.01 18.01l1.77 1.77M1.5 12h2.5M20 12h2.5M4.22 19.78l1.77-1.77M18.01 5.99l1.77-1.77" />
+        </svg>
+      </button>
+    </header>
+    <main><slot /></main>
+  </body>
+</html>
