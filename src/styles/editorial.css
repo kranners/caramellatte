@@ -163,6 +163,31 @@ pre code {
 .posts a { color: var(--ink); text-decoration-color: var(--rule); }
 .posts a:hover { color: var(--accent); text-decoration-color: currentColor; }
 
+/* ---- Colophon ------------------------------------------------------- */
+
+.colophon {
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+}
+.colophon a {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .4rem .65rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  font: 500 .8125rem/1 var(--font-ui);
+}
+.colophon a:hover { color: var(--accent); border-color: currentColor; }
+/* Explicit size beats the fluid `svg { height: auto }` rule above. */
+.colophon svg { width: .9375rem; height: .9375rem; display: block; }
+
 /* ---- Small screens --------------------------------------------------- */
 
 @media (max-width: 40rem) {
