@@ -2,15 +2,15 @@
 import { getCollection } from "astro:content";
 
 const posts = await getCollection('posts');
-
-console.dir({ posts }, null);
 ---
 <h1>pages</h1>
 
 <ul>
   {posts.map((post) => (
     <li>
-      <a href={`post/${post.id}`}>{post.data.title}</a>
+      <a href={`/posts/${post.id}`}>
+        {post.data.title}
+      </a>
     </li>
   ))}
 </ul>
