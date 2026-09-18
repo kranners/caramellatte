@@ -179,10 +179,18 @@ def build_svg(
         for pts, width in stroke.runs():
             _, _, span = timeline.pop(0)
             dur = span * scale
+            # --len must be at least the path's real length, or the repeating
+            # dash leaves a gap mid-stroke. Measure from the rounded points
+            # that actually reach the SVG (so the browser sees the same
+            # geometry), then round up so the dash is never the shorter side.
+            rpts = [(round(x, 2), round(y, 2)) for x, y in pts]
+            length = math.ceil(
+                sum(math.dist(a, b) for a, b in zip(rpts, rpts[1:])) * 100
+            ) / 100
             d = "M" + " L".join(f"{fmt(x)} {fmt(y)}" for x, y in pts)
             chunks.append(
-                f'  <path pathLength="1" stroke-width="{fmt(width)}"'
-                f' style="--draw-delay:{clock:.3f}s;--draw-dur:{dur:.3f}s"'
+                f'  <path stroke-width="{fmt(width)}"'
+                f' style="--len:{fmt(length)};--draw-delay:{clock:.3f}s;--draw-dur:{dur:.3f}s"'
                 f' d="{d}"/>'
             )
             clock += dur
@@ -196,10 +204,10 @@ def build_svg(
   do not hand-edit this file.
 
   Each path is a stretch of one pen stroke, in the order it was written, along
-  the pen's own centerline, with the width the pen had there. pathLength="1"
-  makes the dash maths scale-free, and the draw-delay/draw-dur custom
-  properties carry its slice of the {duration:.2f}s timeline. The animation
-  itself lives in editorial.css.
+  the pen's own centerline, with the width the pen had there. Its real length
+  rides along as --len, so editorial.css can lay one dash down the whole path;
+  --draw-delay/--draw-dur carry its slice of the {duration:.2f}s timeline.
+  The animation itself lives in editorial.css.
 
   Keep this comment free of double hyphens. XML forbids them inside comments.
 -->
