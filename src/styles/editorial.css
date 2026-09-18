@@ -151,9 +151,8 @@ pre code {
  * tokens carry --shiki-light / --shiki-dark instead of a baked-in colour.
  * That leaves the background above under our control in both schemes.
  */
-.astro-code, .astro-code span { color: var(--shiki-light); }
-@media (prefers-color-scheme: dark) {
-  .astro-code, .astro-code span { color: var(--shiki-dark); }
+.astro-code, .astro-code span {
+  color: light-dark(var(--shiki-light), var(--shiki-dark));
 }
 
 /* ---- Post index ----------------------------------------------------- */
@@ -162,6 +161,15 @@ pre code {
 .posts li { margin-bottom: 1rem; }
 .posts a { color: var(--ink); text-decoration-color: var(--rule); }
 .posts a:hover { color: var(--accent); text-decoration-color: currentColor; }
+
+/* ---- Comments -------------------------------------------------------- */
+
+.comments {
+  margin-top: 4rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--rule);
+}
+.comments h2 { margin-top: 0; }
 
 /* ---- Colophon ------------------------------------------------------- */
 

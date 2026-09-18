@@ -22,10 +22,24 @@ const { title, description } = Astro.props;
       (() => {
         const media = matchMedia("(prefers-color-scheme: dark)");
         const stored = localStorage.getItem("theme");
-        const apply = (theme) =>
+        const GISCUS_ORIGIN = "https://giscus.app";
+
+        const sendThemeToGiscus = (theme) =>
+          document.querySelector("iframe.giscus-frame")
+            ?.contentWindow
+            ?.postMessage({ giscus: { setConfig: { theme } } }, GISCUS_ORIGIN);
+
+        const apply = (theme) => {
           document.documentElement.dataset.theme = theme;
+          sendThemeToGiscus(theme);
+        };
 
         apply(stored ?? (media.matches ? "dark" : "light"));
+
+        addEventListener("message", (e) => {
+          if (e.origin !== GISCUS_ORIGIN) return;
+          sendThemeToGiscus(document.documentElement.dataset.theme);
+        });
 
         // Keep following the OS until the reader picks a side.
         media.addEventListener("change", (e) => {
