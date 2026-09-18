@@ -86,6 +86,39 @@ h3 { font-size: 1.25rem; }
 h4, h5, h6 { font-size: 1.0625rem; }
 h1 + * { margin-top: 1.5rem; }
 
+/* ---- Drawn title ----------------------------------------------------- */
+
+/*
+ * A handwritten heading that writes itself in (see DrawnTitle.astro).
+ *
+ * The asset is built from the tablet's raw pen strokes by
+ * scripts/rm-to-title.py. Each path is a stretch of one stroke, along the
+ * pen's own centerline, in the order it was written, so revealing it is just
+ * a dash animation running down the path. Every path declares pathLength="1",
+ * which makes the dash maths scale-free, and carries its slice of the
+ * timeline as --draw-delay and --draw-dur, so this one rule paces the whole
+ * title. Widths ride on each path's stroke-width attribute.
+ */
+.drawn-title { margin-bottom: 1.5rem; }
+.drawn-title svg { display: block; width: 100%; height: auto; }
+
+.drawn-title-ink path {
+  fill: none;
+  stroke: currentColor;      /* the drawing follows the page ink */
+  stroke-linecap: round;     /* a pen tip is round, and so are its ends */
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: drawn-title-stroke var(--draw-dur) linear var(--draw-delay) both;
+}
+
+@keyframes drawn-title-stroke { to { stroke-dashoffset: 0; } }
+
+/* Nothing here survives without motion, so land on the finished drawing. */
+@media (prefers-reduced-motion: reduce) {
+  .drawn-title-ink path { animation: none; stroke-dashoffset: 0; }
+}
+
 /* ---- Body ----------------------------------------------------------- */
 
 p, ul, ol { margin: 0 0 1.35rem; }
