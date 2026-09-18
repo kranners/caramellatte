@@ -6,6 +6,7 @@ const posts = defineCollection({
   loader: glob({ base: "./src/posts", pattern: "**/*.{md,mdx}" }),
   schema: z.object({
     title: z.string(),
+    titleSvg: z.string().optional(),
   }),
 });
 

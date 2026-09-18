@@ -86,6 +86,28 @@ h3 { font-size: 1.25rem; }
 h4, h5, h6 { font-size: 1.0625rem; }
 h1 + * { margin-top: 1.5rem; }
 
+/* ---- Drawn title ----------------------------------------------------- */
+
+.drawn-title { margin-bottom: 1.5rem; }
+.drawn-title svg { display: block; width: 100%; height: auto; }
+
+.drawn-title-ink path {
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  /* One dash the length of the path, from --len. Safari ignores pathLength="1". */
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  animation: drawn-title-stroke var(--draw-dur) linear var(--draw-delay) both;
+}
+
+@keyframes drawn-title-stroke { to { stroke-dashoffset: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .drawn-title-ink path { animation: none; stroke-dashoffset: 0; }
+}
+
 /* ---- Body ----------------------------------------------------------- */
 
 p, ul, ol { margin: 0 0 1.35rem; }

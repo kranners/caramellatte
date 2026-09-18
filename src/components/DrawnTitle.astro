@@ -1,0 +1,28 @@
+---
+interface Props {
+  name: string;
+  label: string;
+}
+
+const { name, label } = Astro.props;
+
+const titles = import.meta.glob<string>("../assets/titles/*.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+const path = `../assets/titles/${name}.svg`;
+const svg = titles[path];
+
+if (!svg) {
+  throw new Error(`DrawnTitle: no drawing at src/assets/titles/${name}.svg`);
+}
+
+const escapeAttr = (value: string) =>
+  value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+
+const labelled = svg.replace("<svg ", `<svg aria-label="${escapeAttr(label)}" `);
+---
+
+<h1 class="drawn-title" set:html={labelled} />
