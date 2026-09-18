@@ -88,32 +88,22 @@ h1 + * { margin-top: 1.5rem; }
 
 /* ---- Drawn title ----------------------------------------------------- */
 
-/*
- * A handwritten heading that writes itself in (see DrawnTitle.astro).
- *
- * The asset is built from the tablet's raw pen strokes by
- * scripts/rm-to-title.py. Each path is a stretch of one stroke, along the
- * pen's own centerline, in the order it was written, so revealing it is just
- * a dash animation running down the path. Every path carries its own real
- * length as --len, so a single dash spans the whole path and one rule paces
- * the whole title. Widths ride on each path's stroke-width attribute.
- */
 .drawn-title { margin-bottom: 1.5rem; }
 .drawn-title svg { display: block; width: 100%; height: auto; }
 
 .drawn-title-ink path {
   fill: none;
-  stroke: currentColor;      /* the drawing follows the page ink */
-  stroke-linecap: round;     /* a pen tip is round, and so are its ends */
+  stroke: currentColor;
+  stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: var(--len);   /* one dash, the full length of the path */
-  stroke-dashoffset: var(--len);  /* start hidden; the keyframe pulls it to 0 */
+  /* One dash the length of the path, from --len. Safari ignores pathLength="1". */
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
   animation: drawn-title-stroke var(--draw-dur) linear var(--draw-delay) both;
 }
 
 @keyframes drawn-title-stroke { to { stroke-dashoffset: 0; } }
 
-/* Nothing here survives without motion, so land on the finished drawing. */
 @media (prefers-reduced-motion: reduce) {
   .drawn-title-ink path { animation: none; stroke-dashoffset: 0; }
 }

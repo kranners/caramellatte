@@ -1,16 +1,6 @@
 ---
-/*
- * A post heading drawn by hand instead of set in type.
- *
- * The SVG is inlined rather than loaded through <img> for two reasons: the
- * drawing takes its colour from the page ink via currentColor, and its
- * stroke-drawing animation is driven by editorial.css, neither of which reach
- * inside an external image.
- */
 interface Props {
-  /* Basename of a file in src/assets/titles, without the extension. */
   name: string;
-  /* What the drawing says, announced in place of the image. */
   label: string;
 }
 
@@ -29,17 +19,10 @@ if (!svg) {
   throw new Error(`DrawnTitle: no drawing at src/assets/titles/${name}.svg`);
 }
 
-/*
- * The label is attached here, not baked into the asset, so the same drawing
- * could caption differently elsewhere. The asset already carries role="img",
- * which is what makes aria-label replace the SVG's contents for a reader.
- */
-const escape = (value: string) =>
+const escapeAttr = (value: string) =>
   value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 
-const labelled = svg
-  .slice(svg.indexOf("<svg ")) /* the asset's notes are for readers of it, not of the page */
-  .replace("<svg ", `<svg aria-label="${escape(label)}" `);
+const labelled = svg.replace("<svg ", `<svg aria-label="${escapeAttr(label)}" `);
 ---
 
 <h1 class="drawn-title" set:html={labelled} />
