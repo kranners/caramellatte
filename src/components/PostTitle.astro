@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+
+const drawings = import.meta.glob<string>("../posts/*/title.svg", {
+  query: "?raw",
+  import: "default",
+  eager: true,
+});
+
+const drawing = drawings[`../posts/${post.id}/title.svg`];
+
+const escapeAttr = (value: string) =>
+  value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+
+const labelled = drawing?.replace(
+  "<svg ",
+  `<svg aria-label="${escapeAttr(post.data.title)}" `,
+);
+---
+
+{
+  labelled
+    ? <h1 class="post-title" set:html={labelled} />
+    : <h1>{post.data.title}</h1>
+}

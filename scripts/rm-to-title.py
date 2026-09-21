@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Turn a reMarkable .rm page into an animated drawn-title asset.
+"""Turn a reMarkable .rm page into an animated title drawing.
 
 The tablet's own SVG export is no use here: it unions overlapping pen strokes
 into filled outlines, which discards both the pen's route and the order you
@@ -17,7 +17,7 @@ near-constant width, each its own <path>. Their delays are contiguous and the
 caps are round, so the run boundaries neither show nor stutter.
 
     ./rm-to-title.py page.rm --list
-    ./rm-to-title.py page.rm --strokes 0-13 -o src/assets/titles/my-title.svg
+    ./rm-to-title.py page.rm --strokes 0-13 -o src/posts/my-post/title.svg
 
 Needs rmscene:  pip install rmscene
 """
@@ -197,7 +197,7 @@ def build_svg(strokes: list[Stroke], duration: float) -> tuple[str, int]:
     body = "\n".join(chunks)
     svg = f"""<svg xmlns="http://www.w3.org/2000/svg"
      viewBox="{fmt(x0)} {fmt(y0)} {fmt(x1 - x0)} {fmt(y1 - y0)}"
-     class="drawn-title-ink" role="img">
+     class="post-title-ink" role="img">
 {body}
 </svg>
 """
