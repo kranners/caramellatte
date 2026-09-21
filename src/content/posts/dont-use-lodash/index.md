@@ -1,7 +1,5 @@
 ---
-id: Don't Use Lodash
 title: Don't Use Lodash (anymore)
-titleSvg: dont-use-lodash
 ---
 
 > **"Why should I write a function if there's just a library for it?"**
