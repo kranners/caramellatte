@@ -7,13 +7,13 @@ interface Props {
 
 const { post } = Astro.props;
 
-const drawings = import.meta.glob<string>("../content/posts/*/title.svg", {
+const drawings = import.meta.glob<string>("../posts/*/title.svg", {
   query: "?raw",
   import: "default",
   eager: true,
 });
 
-const drawing = drawings[`../content/posts/${post.id}/title.svg`];
+const drawing = drawings[`../posts/${post.id}/title.svg`];
 
 const escapeAttr = (value: string) =>
   value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");

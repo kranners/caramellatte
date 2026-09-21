@@ -17,7 +17,7 @@ near-constant width, each its own <path>. Their delays are contiguous and the
 caps are round, so the run boundaries neither show nor stutter.
 
     ./rm-to-title.py page.rm --list
-    ./rm-to-title.py page.rm --strokes 0-13 -o src/content/posts/my-post/title.svg
+    ./rm-to-title.py page.rm --strokes 0-13 -o src/posts/my-post/title.svg
 
 Needs rmscene:  pip install rmscene
 """
